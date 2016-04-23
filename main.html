@@ -1,0 +1,122 @@
+<!--  
+	Sahba Bahizad
+	04/22/2016
+	IT 328
+	Homework #2
+-->
+<head>
+  <title>Products App</title>
+</head>
+
+<body>
+	<div class="container-fluid">
+
+		{{> navBar}}
+		{{> home}} 
+		<div class="row">
+			<div class="col-md-9">
+			
+			  {{> products}}
+			</div>
+			<div class="col-md-3">
+				{{> items}}
+				<br />
+				{{> total}}
+				{{> selectedItems}}
+				
+			</div>	
+		</div>		
+	</div>
+</body>
+
+<template name="navBar">
+	<nav class="navbar navbar-default">
+	 
+		<div class="navbar-header">
+		  <a class="navbar-brand" href="#">Super Store</a>
+		</div>
+		<ul class="nav navbar-nav">
+		  <li class="active"><a href="#" >Home</a></li>
+		  <li><a href="#">Search</a></li> 
+		  <li><a href="#">Cart</a></li> 
+		</ul>
+	  
+	</nav>
+</template>
+
+<template name="home">
+	
+		<div class="jumbotron">
+			<h1>My Store</h1>
+			<h2>Browse our items below...</h2>
+		</div>
+	
+</template>
+
+<template name="total">
+	<div class="panel-body">
+		<h4 >{{totalProducts}} total products</h4>
+	</div>
+</template>
+<template name="products">
+	
+		
+		{{#each product}}
+		<div class="row">
+			<div class="col-lg-8 ">
+				<h4>{{this.productName}} (
+				{{#if inStock }}
+					in-stock
+				{{else}}
+					out-of-stock
+				{{/if}} 
+				)
+				</h4>
+				<p>{{this.productDescription}}</p>
+				<p>Price: 
+				{{#unless sale}}
+					${{this.price}}
+				{{else}}
+					{{> salePrice}}
+				{{/unless}}	
+				</p>
+				<p>Keywords:  {{#each keyWords}} {{this}}, {{/each}} </p>
+				<button class="btn btn-primary btn-md">Buy</button>  
+			</div>
+			<div class="col-lg-4">
+				<img src="{{image}}" height="150px" class="image-responsive"/>
+			</div>
+		</div>
+		<hr />
+		{{/each}}
+	
+</template>
+
+<template name="salePrice">
+
+	${{this.price}} 
+	<p class="text-danger"> On Sale: ${{this.salesPrice}} </p>
+</template>
+
+<template name="items" >
+	<div class="text-danger">
+		<h3 >On Sale!</h3>
+		<ul>
+		{{#each sale}}
+			<li>{{this}}</li>
+		{{/each}}
+		</ul>
+	</div>
+</template>
+
+<template name="selectedItems">
+	<div>
+		<h4 class="text-info">Ready to checkout:</h4>
+		
+		<ul>
+		{{#each cart}}
+			<li>{{this.product.productName}} - Quantity:  {{this.quantity}}</li>
+		{{/each}}
+		</ul>
+	</div>
+</template>
